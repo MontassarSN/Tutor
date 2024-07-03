@@ -3,7 +3,7 @@ const Companies: React.FC = () => {
     return (
         <div className="flex flex-row gap-5 w-3/4 items-center m-auto mt-12 pb-10">
             <div className="flex flex-col gap-4 w-2/5 justify-center m-auto">
-                <h1 className="text-2xl font-semibold m-auto">6.3k trusted companies</h1>
+                <h1 className="text-2xl font-semibold m-auto">We Just keep growing with 6.3k Companies</h1>
                 <div className="text-xs text-gray-500 m-auto">
                     Nullam egestas tellus at enim ornare tristique. Class aptent taciti sociosqu ad litora torquent per conubia nostra.
                 </div>
