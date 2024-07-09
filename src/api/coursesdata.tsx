@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { supabase } from './lib/supabaseClient'; // Adjust path as needed
+import { supabase } from '../lib/supabaseClient'; // Adjust path as needed
 
 export const fetchCourses = async () => {
   const { data, error } = await supabase.from('courses').select('*');
