@@ -5,7 +5,6 @@ import ResearchForCourses from '../components/ResearchForCourses';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { SearchProvider } from '../components/SearchContext'; // Assuming SearchProvider is correctly imported
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function AppContent() {
@@ -25,21 +24,12 @@ function AppContent() {
 }
 
 export default function Page() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 , // 5 minutes
-      },
-    },
-  });
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools /> 
       <SearchProvider>
+      <ReactQueryDevtools /> 
         <AppContent />
       </SearchProvider>
-    </QueryClientProvider>
+
   );
 }
 
