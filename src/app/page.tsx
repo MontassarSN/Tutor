@@ -1,11 +1,10 @@
-"use client" ;
-import React from 'react';
-import Home from './Home/page';
-import ResearchForCourses from '../components/ResearchForCourses';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { SearchProvider } from '../components/SearchContext'; // Assuming SearchProvider is correctly imported
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+"use client";
+import React from "react";
+import Home from "./Home/page";
+import ResearchForCourses from "../components/ResearchForCourses";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { SearchProvider } from "../components/SearchContext"; // Assuming SearchProvider is correctly imported
 
 function AppContent() {
   // Assuming useSearch is correctly imported and used here
@@ -15,7 +14,7 @@ function AppContent() {
   const searchQuery = false;
 
   return (
-    <div className='bg-white text-black'>
+    <div className="bg-white text-black">
       <Navbar />
       {searchQuery ? <ResearchForCourses /> : <Home />}
       <Footer />
@@ -25,12 +24,8 @@ function AppContent() {
 
 export default function Page() {
   return (
-      <SearchProvider>
-      <ReactQueryDevtools /> 
-        <AppContent />
-      </SearchProvider>
-
+    <SearchProvider>
+      <AppContent />
+    </SearchProvider>
   );
 }
-
-

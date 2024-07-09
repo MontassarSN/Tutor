@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Hydration from "@/provider/hydration";
-import Tutor from "@/provider/tutor";
+import Store from "@/provider/store";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +18,10 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body >
-        <Tutor>
-          <Hydration>
-              {children}
-          </Hydration>
-        </Tutor>
+      <body>
+        <Store>
+          <Hydration>{children}</Hydration>
+        </Store>
       </body>
     </html>
   );

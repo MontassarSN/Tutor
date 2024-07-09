@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { useSearch } from "./SearchContext";
-import { useCourses } from '../app/coursesdata';
 import Image from "next/image"; // Import Image from 'next/image'
+import { useCourses } from "@/queries/useCourses";
 
 const ResearchForCourses: React.FC = () => {
   const { searchQuery } = useSearch();
@@ -14,13 +14,13 @@ const ResearchForCourses: React.FC = () => {
   if (!courses) return <div>No courses available</div>; // Type guard to handle undefined courses
 
   // Filter courses based on search query
-  const filteredCourses = courses.filter((course) =>
+  const filteredCourses = courses.data?.filter((course) =>
     course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="flex flex-row justify-center w-5/6 flex-wrap gap-5 m-auto">
-      {filteredCourses.map((course, index) => (
+      {filteredCourses?.map((course, index) => (
         <div
           key={index} // Use a unique key for each mapped course
           className="flex flex-col w-[18%] gap-2 items-center px-2 bg-white border-2 border-gray-200"

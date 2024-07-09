@@ -1,6 +1,6 @@
 import React from "react";
-import { categories } from "../../Data";
-import { Category } from "../../Types";
+import { categories } from "../../../db/Data";
+import { Category } from "../../../types/Types";
 import Image from "next/image"; // Import next/image
 
 export default function TopCat() {
@@ -38,4 +38,4 @@ export default function TopCat() {
       </div>
     </div>
   );
-};
+}
