@@ -11,7 +11,7 @@ export interface Category {
     label: string;
     price: string;
     title: string;
-    picurl: string;
+    pic: string;
     stars: string;
     students: string;
     colors: string;

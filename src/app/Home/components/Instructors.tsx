@@ -1,15 +1,27 @@
 import React from "react";
 import Image from "next/image";
-import { instructors } from "../../../db/Data";
+import { Instructor } from "../../../types/Types";
+import { useInstructors } from "@/queries/useInstructors";
 
 export default function Instructors() {
+  const { data: instructors, isLoading, isError } = useInstructors();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching instructors</div>;
+  if (!instructors) return <div>No instructors available</div>;
+  const sortedinstructors = instructors.data?.sort(
+    (a, b) => parseStudents(b.students) - parseStudents(a.students)
+  );
+  // Take the top 10 courses
+  const Top5instructors: Instructor[] | undefined = sortedinstructors?.slice(0, 5);
+
   return (
     <div className="flex flex-col mt-10 gap-5 w-3/4 m-auto items-center py-5 justify-center bg-white p-4">
       <h1 className="text-3xl font-semibold align-middle py-10">
         Most Selling Instructors
       </h1>
       <div className="flex flex-row justify-center w-full flex-wrap gap-5">
-        {instructors.map((instructor, index) => (
+        {Top5instructors?.map((instructor: Instructor, index: number) => (
           <div
             key={index}
             className="flex flex-col w-[18%] gap-4 items-center bg-white border-2 border-gray-200"
@@ -43,4 +55,10 @@ export default function Instructors() {
       </div>
     </div>
   );
+}
+function parseStudents(students: string): number {
+  if (students.endsWith("K")) {
+    return parseFloat(students) * 1000;
+  }
+  return parseFloat(students);
 }

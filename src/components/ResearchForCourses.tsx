@@ -28,7 +28,7 @@ const ResearchForCourses: React.FC = () => {
           {/* Use Next.js Image component */}
           <div className="relative h-48 w-full">
             <Image
-              src={course.picurl}
+              src={course.pic}
               alt={`Course ${index + 1}`} // Provide meaningful alt text
               layout="fill"
               objectFit="cover"

@@ -14,7 +14,7 @@ const Card: React.FC<CardProps> = ({ course, width }) => {
     >
       <div className="relative w-full h-48">
         <Image
-          src={course.picurl}
+          src={course.pic}
           alt="Course"
           layout="fill"
           objectFit="cover"
