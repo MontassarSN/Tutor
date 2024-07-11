@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { supabase } from "../../../lib/supabaseClient"; // Make sure the path is correct
+import { supabase } from "../../../lib/supabasecsr"; // Make sure the path is correct
 
 const Form: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -28,12 +28,10 @@ const Form: React.FC = () => {
       // Save additional user info
       const { error: insertError } = await supabase.from("users").insert([
         {
-          id: user.id, // Ensure this matches your table structure
           FirstName: firstName,
           LastName: lastName,
           UserName: username,
           Email: email,
-          created_at: new Date().toISOString(), // Ensure this is correctly formatted
         },
       ]);
 

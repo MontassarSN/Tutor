@@ -10,7 +10,6 @@ const ResearchForCourses: React.FC = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching courses</div>;
-
   if (!courses) return <div>No courses available</div>; // Type guard to handle undefined courses
 
   // Filter courses based on search query
@@ -19,7 +18,7 @@ const ResearchForCourses: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-row justify-center w-5/6 flex-wrap gap-5 m-auto">
+    <div className="flex flex-row justify-center w-5/6 flex-wrap gap-5 m-auto py-10">
       {filteredCourses?.map((course, index) => (
         <div
           key={index} // Use a unique key for each mapped course

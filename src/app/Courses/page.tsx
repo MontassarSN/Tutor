@@ -10,10 +10,7 @@ const CoursesContent: React.FC = () => {
     return (
         <div className='bg-white text-black'>
           <Navbar />
-          <div className='py-10'>
           <ResearchForCourses />
-          </div>
-
           <Footer />
         </div> );
 };

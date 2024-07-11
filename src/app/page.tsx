@@ -4,14 +4,11 @@ import Home from "./Home/page";
 import ResearchForCourses from "../components/ResearchForCourses";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { SearchProvider } from "../components/SearchContext"; // Assuming SearchProvider is correctly imported
+import { SearchProvider , useSearch } from "../components/SearchContext"; // Assuming SearchProvider is correctly imported
 
 function AppContent() {
-  // Assuming useSearch is correctly imported and used here
-  // const { searchQuery } = useSearch();
 
-  // For demonstration purposes, replacing useSearch with a placeholder
-  const searchQuery = false;
+  const { searchQuery } = useSearch();
 
   return (
     <div className="bg-white text-black">
