@@ -1,7 +1,9 @@
 "use server";
-import { supabase } from "../lib/supabasessr"; // Adjust path as needed
+import { ServerClient } from "@/lib/supabasessr"; // Adjust the import path as needed
 
-export const fetchInstructors = async () => {
+
+export async function fetchInstructors () {
+  const supabase = await ServerClient();
   const { data, error } = await supabase.from("instructors").select("*");
   if (error) {
     return { error, data: null };

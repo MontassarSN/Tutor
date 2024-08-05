@@ -1,10 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { fetchInstructors } from "../api/instructorsdata";
+import { IntructorsQuery } from "./InstructorQuery";
 
 export const useInstructors = () => {
-  return useQuery({
-    queryKey: ["Instructors"],
-    queryFn: async () => await fetchInstructors(),
-  });
+  return useQuery(IntructorsQuery);
 };

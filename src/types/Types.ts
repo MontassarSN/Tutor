@@ -16,6 +16,13 @@ export interface Category {
     students: string;
     colors: string;
     date: string;
+    ownername: string;
+  }
+
+  export interface labelcolors {
+    id:number;
+    label: string;
+    colors: string;
   }
   
   export interface Instructor {

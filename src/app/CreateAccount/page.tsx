@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './components/Form';
 import SmallNav from '../../components/SmallNav';
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 export default function Page()  {
@@ -15,7 +16,7 @@ export default function Page()  {
       </SmallNav>
       <div className='flex flex-row '>
         <div className='w-[45%] bg-purple-100 flex justify-center items-center'>
-          <img src="/saly.png" alt="saly" className="w-full h-auto" />
+          <Image src="/saly.png" alt="saly" className="w-full h-auto" width={180} height={180}/>
         </div>
         <div className="p-24 w-[55%]">
             <div className="w-[80%]">

@@ -12,6 +12,8 @@ yarn dev
 pnpm dev
 # or
 bun dev
+# types
+ npx supabase gen types --lang=typescript --project-id zcchljrmiprrszpsszaw > src/types/database.types.ts   
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

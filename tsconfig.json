@@ -10,6 +10,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "downlevelIteration": true,
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -29,6 +30,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/lib/supabasessrts"
-  ],
+, "tailwind.config.js"  ],
   "exclude": ["node_modules"]
 }

@@ -1,13 +1,20 @@
-// src/app/coursesdata.tsx
+// src/api/fetchCourses.ts
 "use server";
-import { supabase } from "../lib/supabasessr"; // Adjust path as needed
+import { ServerClient } from "@/lib/supabasessr"; // Adjust the import path as needed
 
-export const fetchCourses = async () => {
-  const { data, error } = await supabase.from("courses").select("*");
-  console.log("🚀 ~ fetchCourses ~ error:", error);
-  console.log("🚀 ~ fetchCourses ~ data:", data);
+export async function fetchCourses(page: number, pageSize: number) {
+  const supabase = await ServerClient();
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+  
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .range(from, to);
+
   if (error) {
-    return { error, data: null };
+    throw new Error(`Error fetching courses: ${error.message}`);
   }
-  return { data, error: null };
-};
+
+  return data;
+}

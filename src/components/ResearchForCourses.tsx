@@ -1,56 +1,57 @@
+// src/components/ResearchForCourses.tsx
 "use client";
-import React from "react";
-import { useSearch } from "./SearchContext";
-import Image from "next/image"; // Import Image from 'next/image'
+import React, { useEffect, useState } from "react";
+import { useSearch } from "../Contexts/SearchContext";
 import { useCourses } from "@/queries/useCourses";
+import Card from "./Card";
+import { useQueryClient } from "@tanstack/react-query";
+import { CoursesQuery } from "@/queries/CoursesQuery";
 
 const ResearchForCourses: React.FC = () => {
+  const queryClient = useQueryClient();
   const { searchQuery } = useSearch();
-  const { data: courses, isLoading, isError } = useCourses();
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+  useEffect(() => {
+    queryClient.prefetchQuery(CoursesQuery(page + 1, pageSize));
+  }, [page]);
+
+  const { data: courses, isLoading, isError } = useCourses(page, pageSize);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching courses</div>;
-  if (!courses) return <div>No courses available</div>; // Type guard to handle undefined courses
+  if (!courses || courses.length === 0) return <div>No courses available</div>;
 
-  // Filter courses based on search query
-  const filteredCourses = courses.data?.filter((course) =>
-    course.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCourses = courses.filter((course) =>
+    course.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const handleNextPage = () => setPage((prev) => prev + 1);
+  const handlePreviousPage = () => setPage((prev) => Math.max(prev - 1, 1));
 
   return (
-    <div className="flex flex-row justify-center w-5/6 flex-wrap gap-5 m-auto py-10">
-      {filteredCourses?.map((course, index) => (
-        <div
-          key={index} // Use a unique key for each mapped course
-          className="flex flex-col w-[18%] gap-2 items-center px-2 bg-white border-2 border-gray-200"
+    <div className="flex flex-col items-center">
+      <div className="flex flex-row justify-start w-5/6 flex-wrap gap-5 m-auto py-10">
+        {filteredCourses.map((course) => (
+          <Card key={course.id} course={course} width="w-[18%]" />
+        ))}
+      </div>
+      <div className="flex justify-between w-full max-w-2xl my-5">
+        <button
+          onClick={handlePreviousPage}
+          disabled={page === 1}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
         >
-          {/* Use Next.js Image component */}
-          <div className="relative h-48 w-full">
-            <Image
-              src={course.pic}
-              alt={`Course ${index + 1}`} // Provide meaningful alt text
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
-            />
-          </div>
-          <div className="flex flex-grow flex-col justify-between w-full">
-            <div className="flex flex-row items-center justify-between w-full">
-              <div className={`text-xs px-2 py-1 ${course.colors}`}>
-                {course.label}
-              </div>
-              <h1 className="text-semibold text-customText">{course.price}</h1>
-            </div>
-            <div className="text-sm font-semibold">{course.title}</div>
-          </div>
-          <div className="flex flex-row items-center justify-between w-full border-t-2 py-2 border-gray-200 mt-auto">
-            <h1>⭐{course.stars}</h1>
-            <h1 className="text-gray-700">
-              {course.students} <span className="text-gray-400">Students</span>
-            </h1>
-          </div>
-        </div>
-      ))}
+          Previous
+        </button>
+        <span>Page {page}</span>
+        <button
+          disabled={filteredCourses.length < 10}
+          onClick={handleNextPage}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

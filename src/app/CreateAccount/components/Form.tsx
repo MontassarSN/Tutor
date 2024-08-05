@@ -1,50 +1,95 @@
 "use client";
 
 import React, { useState } from "react";
-import { supabase } from "../../../lib/supabasecsr"; // Make sure the path is correct
+import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { InsertUser } from "@/api/insertUser";
+import { SignUp } from "@/api/SignUp";
+
+interface CustomError {
+  message: string;
+}
+
+// Define the schema using Zod with enhanced validation rules
+const schema = z.object({
+  firstName: z.string().min(1, "First Name is required"),
+  lastName: z.string().min(1, "Last Name is required"),
+  username: z.string().min(1, "username is required"),
+  email: z.string().email("Invalid email address"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[\W_]/, "Password must contain at least one special character"),
+});
 
 const Form: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const router = useRouter();
+  const signUpMutation = useMutation<void, CustomError, FormData>({
+    mutationFn: async (formData: FormData) => {
+      const email = String(formData.get("email")) ;
+      const password = String(formData.get("password"));
+      const firstName = String(formData.get("firstName") );
+      const lastName = String(formData.get("lastName") );
+      const username = String(formData.get("username") );
+      const result = schema.safeParse({
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+      });
 
-  const handleSignUp = async () => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+      if (!result.success) {
+        const formattedErrors: Record<string, string> = {};
+        result.error.errors.forEach((error) => {
+          if (error.path && error.path[0]) {
+            formattedErrors[error.path[0] as string] = error.message;
+          }
+        });
+        setErrors(formattedErrors);
+        throw new Error("Validation error");
+      }
 
-    if (error) {
-      console.error("Error signing up:", error.message);
-      return;
-    }
+      const options = {
+        data: {
+          firstName,
+          lastName,
+          username,
+        },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      };
 
-    const user = data.user;
-
-    if (user) {
-      console.log(user);
-      // Save additional user info
-      const { error: insertError } = await supabase.from("users").insert([
-        {
+      const user = await SignUp({
+        email,
+        password,
+        options,
+      });
+      if (user) {
+        await InsertUser({
           FirstName: firstName,
           LastName: lastName,
-          UserName: username,
-          Email: email,
-        },
-      ]);
-
-      if (insertError) {
-        console.error("Error saving user info:", insertError.message);
-      } else {
+          username,
+          email,
+          user_id: user.id,
+        });
         console.log("User info saved successfully.");
       }
+    },
+    onSuccess: () => {
+      router.push("/"); // Redirect to the home page upon successful sign-up
+    },
+    onError: (error) => {
+      console.error(error);
     }
-  };
+  });
 
   return (
-    <div className="flex flex-col gap-5">
+    <form action={signUpMutation.mutate} className="flex flex-col gap-5">
       <h1 className="text-4xl font-bold align-middle py-10">
         Create your account
       </h1>
@@ -54,26 +99,32 @@ const Form: React.FC = () => {
           className="border-gray-100 border-[1px] px-4 py-2 w-[45%] tx-lg text-gray-500"
           type="text"
           placeholder="First Name..."
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          name="firstName"
         />
+        {errors.firstName && (
+          <div className="text-red-500">{errors.firstName}</div>
+        )}
         <input
           className="border-gray-100 border-[1px] px-4 py-2 w-[45%]"
           type="text"
           placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          name="lastName"
         />
+        {errors.lastName && (
+          <div className="text-red-500">{errors.lastName}</div>
+        )}
       </div>
-      <div className="text-sm font-semibold text-gray-900">Username</div>
+      <div className="text-sm font-semibold text-gray-900">username</div>
       <div>
         <input
           className="border-gray-100 border-[1px] px-4 py-2 w-full"
           type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="username"
+          name="username"
         />
+        {errors.username && (
+          <div className="text-red-500">{errors.username}</div>
+        )}
       </div>
       <div className="text-sm font-semibold text-gray-900">Email</div>
       <div>
@@ -81,9 +132,9 @@ const Form: React.FC = () => {
           className="border-gray-100 border-[1px] px-4 py-2 w-full"
           type="email"
           placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
         />
+        {errors.email && <div className="text-red-500">{errors.email}</div>}
       </div>
       <div className="flex flex-row justify-between">
         <div className="text-sm font-semibold text-gray-900 w-[45%]">
@@ -98,9 +149,11 @@ const Form: React.FC = () => {
           className="border-gray-100 border-[1px] px-4 py-2 w-[45%] tx-lg text-gray-500"
           type="password"
           placeholder="Create Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
         />
+        {errors.password && (
+          <div className="text-red-500">{errors.password}</div>
+        )}
         <input
           className="border-gray-100 border-[1px] px-4 py-2 w-[45%] tx-lg text-gray-500"
           type="password"
@@ -117,8 +170,7 @@ const Form: React.FC = () => {
         </div>
         <button
           className="bg-customText text-white text-sm py-2 px-2"
-          type="button"
-          onClick={handleSignUp}
+          type="submit"
         >
           <div className="flex flex-row gap-2">
             <div>Create Account</div>
@@ -130,7 +182,13 @@ const Form: React.FC = () => {
           </div>
         </button>
       </div>
-    </div>
+      {signUpMutation.isError && (
+        <div className="text-red-500">{signUpMutation.error?.message}</div>
+      )}
+      {signUpMutation.isSuccess && (
+        <div className="text-green-500">Sign-up successful!</div>
+      )}
+    </form>
   );
 };
 

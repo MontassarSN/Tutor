@@ -1,10 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCourses } from "../api/coursesdata";
+import { CoursesQuery } from "./CoursesQuery";
 
-export const useCourses = () => {
-  return useQuery({
-    queryKey: ["courses"],
-    queryFn: async () => await fetchCourses(),
-  });
+export const useCourses = (page: number, pageSize: number) => {
+  return useQuery(CoursesQuery(page, pageSize));
 };
