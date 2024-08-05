@@ -1,14 +1,18 @@
 "use client";
-import { Tables } from '@/types/database.types';
-import React, { ChangeEvent, useEffect } from 'react';
+import { Tables } from "@/types/database.types";
+import React, { ChangeEvent, useEffect } from "react";
 
 interface CourseSubjectsProps {
-  data: Tables<'courses'>;
+  data: Tables<"courses"> | undefined | null;
   subjects: string[];
   setSubjects: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export default function CourseSubjects({ subjects, setSubjects , data }: CourseSubjectsProps) {
+export default function CourseSubjects({
+  subjects,
+  setSubjects,
+  data,
+}: CourseSubjectsProps) {
   useEffect(() => {
     setSubjects(data?.subjects || []);
   }, [data?.subjects, setSubjects]);
@@ -21,14 +25,16 @@ export default function CourseSubjects({ subjects, setSubjects , data }: CourseS
 
   const handleAddInput = () => {
     if (subjects.length < 8) {
-      setSubjects([...subjects, '']);
+      setSubjects([...subjects, ""]);
     }
   };
 
   return (
-    <div className='flex flex-col gap-3 py-5'>
-      <div className='flex justify-between w-full'>
-        <div className="text-lg font-semibold">What you will teach in this course ({subjects.length}/8)</div>
+    <div className="flex flex-col gap-3 py-5">
+      <div className="flex justify-between w-full">
+        <div className="text-lg font-semibold">
+          What you will teach in this course ({subjects.length}/8)
+        </div>
         {subjects.length < 8 && (
           <button
             type="button" // Prevent form submission
@@ -39,7 +45,7 @@ export default function CourseSubjects({ subjects, setSubjects , data }: CourseS
           </button>
         )}
       </div>
-     
+
       {subjects.map((input, index) => (
         <div key={index} className="flex flex-col gap-2 relative">
           <label>{index + 1 < 10 ? `0${index + 1}` : index + 1}</label>
@@ -47,12 +53,16 @@ export default function CourseSubjects({ subjects, setSubjects , data }: CourseS
             <input
               type="text"
               value={input}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(index, e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                handleInputChange(index, e.target.value)
+              }
               className="border p-2 w-full pr-10"
               placeholder="What you will teach in this course..."
               maxLength={120}
             />
-            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-900">{input.length}/120</span>
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-900">
+              {input.length}/120
+            </span>
           </div>
         </div>
       ))}

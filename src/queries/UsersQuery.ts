@@ -1,4 +1,4 @@
-import { fetchUsers } from "@/api/usersdata";
+import { fetchUsers } from "@/api/users/usersdata";
 
 export const UsersQuery ={
     queryKey: ["users"],

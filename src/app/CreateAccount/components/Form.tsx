@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { InsertUser } from "@/api/insertUser";
-import { SignUp } from "@/api/SignUp";
+import { InsertUser } from "@/api/users/insertUser";
+import { SignUp } from "@/api/auth/SignUp";
 
 interface CustomError {
   message: string;

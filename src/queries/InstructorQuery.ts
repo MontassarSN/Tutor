@@ -1,4 +1,4 @@
-import { fetchInstructors } from "@/api/instructorsdata";
+import { fetchInstructors } from "@/api/users/instructors/instructorsdata";
 
 export const IntructorsQuery ={
     queryKey: ["instructors"],

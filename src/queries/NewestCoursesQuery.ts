@@ -1,4 +1,4 @@
-import {fetchRecentlyAddedCourses} from "@/api/fetchRecentlyAddedCourses";
+import {fetchRecentlyAddedCourses} from "@/api/course/fetchRecentlyAddedCourses";
 
 export const NewestCoursesQuery = {
     queryKey: ["NewestCourses"],

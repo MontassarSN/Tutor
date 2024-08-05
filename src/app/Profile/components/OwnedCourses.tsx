@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useCurrentUser from "@/queries/useCurrentUser";
 import Card from "@/components/Card";
-import { FetchInstructorCourses } from "@/api/instructorCourses";
+import { FetchInstructorCourses } from "@/api/course/instructorCourses";
 import { Tables } from "@/types/database.types";
 import Link from "next/link";
 

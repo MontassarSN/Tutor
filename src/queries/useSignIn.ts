@@ -1,7 +1,7 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { SignIn } from "@/api/signIn";
+import { SignIn } from "@/api/auth/signIn";
 import { useToast } from "@/components/ui/use-toast";
 
 export const useSignIn = () => {

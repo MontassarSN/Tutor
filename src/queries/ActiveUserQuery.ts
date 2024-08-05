@@ -1,4 +1,4 @@
-import fetchActiveUser from "@/api/fetchUser";
+import fetchActiveUser from "@/api/users/fetchUser";
 
 export const ActiveUserQuery ={
     queryKey: ["user", "active"],

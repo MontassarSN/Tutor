@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SignOut } from "@/api/signOut";
+import { SignOut } from "@/api/auth/signOut";
 import { useRouter } from "next/navigation";
 
 export function DropdownMenuDemo() {

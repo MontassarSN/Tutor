@@ -1,4 +1,4 @@
-import { fetchCourses } from "@/api/coursesdata";
+import { fetchCourses } from "@/api/course/coursesdata";
 
 export const CoursesQuery = (page: number, pageSize: number) => ({
   queryKey: ["courses", { page, pageSize }],

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { InsertInstructorData } from "@/api/insertinstructordata";
+import { InsertInstructorData } from "@/api/users/instructors/insertinstructordata";
 
 const Page: React.FC = () => {
   const queryClient = useQueryClient();

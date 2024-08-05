@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import useCurrentUser from "@/queries/useCurrentUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { UpdateUser } from "@/api/updateUser";
+import { UpdateUser } from "@/api/users/updateUser";
 
 export default function Details() {
   const { data: user, isLoading, error } = useCurrentUser();
