@@ -1,10 +1,10 @@
 "use server";
 import { ServerClient } from "@/lib/supabasessr";
-import { TablesInsert } from "@/types/database.types";
+import { Tables, TablesInsert } from "@/types/database.types";
 
 export async function InsertCourseData(
   args: TablesInsert<"courses">
-): Promise<number> {
+): Promise<Tables<"courses">> {
   const supabase = await ServerClient();
   const {
     data: { user },
@@ -18,16 +18,15 @@ export async function InsertCourseData(
   const { data: course, error: insertError } = await supabase
     .from("courses")
     .insert([{ ...args, user_id: String(user?.id) }])
-    .select("id"); // Select the id field to ensure it's returned
+    .select()
+    .single();
 
   if (insertError) {
     throw new Error(insertError.message);
   }
-
-  if (course && course.length > 0) {
-    console.log(course[0].id);
-    return course[0].id as number; // Return the id of the first inserted row
+  if (course) {
+    return course; // Return the id of the first inserted row
+  } else {
+    throw new Error("Insertion failed, no course ID returned");
   }
-
-  throw new Error("Insertion failed, no course ID returned");
 }

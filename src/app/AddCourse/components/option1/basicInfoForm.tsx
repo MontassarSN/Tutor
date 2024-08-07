@@ -16,9 +16,11 @@ export default function BasicInfoForm() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const courseId = searchParams.get("courseId");
+  console.log("🚀 ~ BasicInfoForm ~ courseId:", courseId);
   const parsedCourseId = courseId ? parseInt(courseId, 10) : null;
 
-  const { data: courseData } = useCourseData(parsedCourseId as number);
+  const { data: courseData } = useCourseData(parsedCourseId);
+  console.log("🚀 ~ BasicInfoForm ~ courseData:", courseData);
 
   const courseSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -66,7 +68,7 @@ export default function BasicInfoForm() {
       }
 
       if (!parsedCourseId) {
-        const NewCourseId = await InsertCourseData({
+        const NewCourse = await InsertCourseData({
           title: data.title,
           label: parseInt(data.label),
           subtitle: data.subtitle,
@@ -77,10 +79,12 @@ export default function BasicInfoForm() {
           level: data.level,
           duration: data.duration ? parseInt(data.duration) : undefined,
         });
-        return NewCourseId;
+        console.log("🚀 ~ mutationFn: ~ NewCourseId:", NewCourse);
+        return NewCourse.id;
       }
     },
-    onSuccess: async (NewcourseId  ) => {
+    onSuccess: async (NewcourseId) => {
+      console.log("🚀 ~ onSuccess: ~ NewcourseId:", NewcourseId);
       toast({
         variant: "success",
         title: "Adding Course successfully",
@@ -89,21 +93,19 @@ export default function BasicInfoForm() {
       queryClient.invalidateQueries({
         queryKey: ["courses"],
       });
-      console.log(NewcourseId);
-      router.push(`/AddCourse?courseId=${NewcourseId as number}`);
+      router.push(`/AddCourse?courseId=${NewcourseId}`);
       setSelectedOption("option2");
     },
     onError: (error: any) => {
       toast({
         variant: "destructive",
         title: "Error Adding Course",
-        description: "Please check your internet connection and try again later.",
+        description:
+          "Please check your internet connection and try again later.",
       });
       console.error("Error adding course:", error.message);
     },
   });
-
-
 
   return (
     <div className="flex flex-col  gap-5">
@@ -124,7 +126,7 @@ export default function BasicInfoForm() {
             <div className="text-red-600 text-sm">{formErrors.title}</div>
           )}
         </div>
-        
+
         <div className="flex flex-col gap-2">
           <div className="text-sm font-semibold text-gray-900">Subtitle</div>
           <input
@@ -138,10 +140,12 @@ export default function BasicInfoForm() {
             <div className="text-red-600 text-sm">{formErrors.subtitle}</div>
           )}
         </div>
-        
+
         <div className="grid grid-cols-2 grid-rows-2 items-center gap-3">
           <div className="flex flex-col gap-2">
-            <div className="text-sm font-semibold text-gray-900">Course Category</div>
+            <div className="text-sm font-semibold text-gray-900">
+              Course Category
+            </div>
             <select
               className="text-gray-500 text-sm"
               id="label"
@@ -163,7 +167,9 @@ export default function BasicInfoForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="text-sm font-semibold text-gray-900">Course Sub-category</div>
+            <div className="text-sm font-semibold text-gray-900">
+              Course Sub-category
+            </div>
             <select
               className="text-gray-500 text-sm"
               id="sublabel"
@@ -186,7 +192,9 @@ export default function BasicInfoForm() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <div className="text-sm font-semibold text-gray-900">Course Topic</div>
+          <div className="text-sm font-semibold text-gray-900">
+            Course Topic
+          </div>
           <input
             className="border-gray-100 border-[1px] px-4 py-2 w-full"
             type="text"
@@ -201,7 +209,9 @@ export default function BasicInfoForm() {
 
         <div className="grid grid-cols-4 grid-rows-1 items-center gap-3">
           <div className="flex flex-col gap-2 ">
-            <div className="text-sm font-semibold text-gray-900">Course Language</div>
+            <div className="text-sm font-semibold text-gray-900">
+              Course Language
+            </div>
             <select
               className="text-gray-500 text-sm"
               name="language"
@@ -228,12 +238,16 @@ export default function BasicInfoForm() {
               <option value="english">English</option>
             </select>
             {formErrors.subtitle_language && (
-              <div className="text-red-600 text-sm">{formErrors.subtitle_language}</div>
+              <div className="text-red-600 text-sm">
+                {formErrors.subtitle_language}
+              </div>
             )}
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="text-sm font-semibold text-gray-900">Course Level</div>
+            <div className="text-sm font-semibold text-gray-900">
+              Course Level
+            </div>
             <select
               className="text-gray-500 text-sm"
               name="level"

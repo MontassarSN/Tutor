@@ -19,13 +19,11 @@ export default function AdvancedInfo() {
   const [requirements, setRequirements] = useState<string[]>(Array(4).fill(""));
   const searchParams = useSearchParams();
   const courseId = searchParams.get("courseId");
+  console.log("🚀 ~ AdvancedInfo ~ courseId:", courseId)
   const parsedCourseId = courseId ? parseInt(courseId, 10) : null; // Convert courseId to number
 
   const { data: courseData } = useCourseData(parsedCourseId);
 
-  if (!courseData) {
-    setSelectedOption("option1");
-  }
 
   const updateCourseMutation = useMutation({
     mutationFn: async (formData: FormData) => {
