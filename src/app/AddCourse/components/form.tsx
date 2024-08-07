@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import Navbar from "./navbar";
-import BasicInfo from "./basicInfo";
-import AdvancedInfo from "./advancedInfo";
-import Curriculum from "./curriculum";
-import PublishCourse from "./publishCourse";
+import BasicInfo from "./option1/basicInfo";
+import AdvancedInfo from "./option2/advancedInfo";
+import Curriculum from "./option3/curriculum";
+import PublishCourse from "./option4/publishCourse";
 import { useOption } from "../context/OptionContext";
 
 export default function Form() {

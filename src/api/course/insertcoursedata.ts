@@ -25,7 +25,8 @@ export async function InsertCourseData(
   }
 
   if (course && course.length > 0) {
-    return course[0].id; // Return the id of the first inserted row
+    console.log(course[0].id);
+    return course[0].id as number; // Return the id of the first inserted row
   }
 
   throw new Error("Insertion failed, no course ID returned");
