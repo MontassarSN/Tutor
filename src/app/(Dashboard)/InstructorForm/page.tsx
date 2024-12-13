@@ -6,8 +6,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { InsertInstructorData } from "@/api/users/instructors/insertinstructordata";
 import { SearchProvider } from "@/Contexts/SearchContext";
+import { useToast } from "@/components/ui/use-toast";
 function FormContent() {
   const queryClient = useQueryClient();
+  const {toast} = useToast();
   const router = useRouter();
   const [agreed, setAgreed] = useState(false);
 
@@ -23,6 +25,7 @@ function FormContent() {
       });
     },
     onSuccess: () => {
+      toast({ description: "Your Request have been submitted!" });
       queryClient.invalidateQueries({
         queryKey: ["instructors"],
       });
