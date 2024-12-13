@@ -2,14 +2,14 @@
 import { UpdateInstructor } from "@/api/users/instructors/updateInstructor";
 import { useToast } from "@/components/ui/use-toast";
 import useCurrentUser from "@/queries/useCurrentUser";
-import { useInstructoreData } from "@/queries/useInstructor";
+import { useInstructor } from "@/queries/useInstrcutor";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
 
 export default function InstructorSocials() {
   const { data: user, isLoading, error } = useCurrentUser();
-  const { data: intructordata } = useInstructoreData(user?.user_id);
+  const { data: intructordata } = useInstructor(user?.user_id ?? "");
   const { toast } = useToast();
 
   const queryClient = useQueryClient();

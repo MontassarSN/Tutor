@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import NavList from "./navList";
-import { useInstructoreData } from "@/queries/useInstructor";
+import { useInstructor } from "@/queries/useInstrcutor";
 
 export default function Navbar() {
   const { data: user, isLoading, error } = useCurrentUser();
-  const { data: intructordata } = useInstructoreData(user?.user_id);
+  const { data: intructordata } = useInstructor(user?.user_id ?? "");
 
   return (
     <div className="flex flex-col m-auto bg-white shadow-sm mt-[-10rem] w-[60rem]">

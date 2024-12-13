@@ -7,5 +7,6 @@ export function useInstructor(instructorId: string) {
   return useQuery({
     queryKey: ["instructors", instructorId],
     queryFn: async () => await fetchInstructorById(instructorId),
+    enabled: !!instructorId,
   });
 }

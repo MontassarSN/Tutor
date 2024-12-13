@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLabelcolors } from "@/queries/useLabelcolors";
 import Image from "next/image";
 import { Tables } from "@/types/database.types";
-import { useInstructoreData } from "@/queries/useInstructor";
 import { useUser } from "@/queries/useUser";
 import Link from "next/link";
 import { useAddToCart } from "@/hooks/purchases/cart/addToCartMutation";

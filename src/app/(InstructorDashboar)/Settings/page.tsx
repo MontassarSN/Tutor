@@ -4,14 +4,14 @@ import useCurrentUser from "@/queries/useCurrentUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { UpdateUser } from "@/api/users/updateUser";
-import { useInstructoreData } from "@/queries/useInstructor";
 import { UpdateInstructor } from "@/api/users/instructors/updateInstructor";
 import InstructorSocials from "./components/instructorSocials";
 import ChangePassword from "@/components/changePassword";
+import { useInstructor } from "@/queries/useInstrcutor";
 
 export default function Page() {
   const { data: user, isLoading, error } = useCurrentUser();
-  const { data: intructordata } = useInstructoreData(user?.user_id);
+  const { data: intructordata } = useInstructor(user?.user_id ?? "");
   console.log("🚀 ~ Page ~ intructordata:", intructordata);
   const queryClient = useQueryClient();
   const [preview, setPreview] = useState<string>("");
