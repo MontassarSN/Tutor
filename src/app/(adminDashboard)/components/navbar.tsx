@@ -1,5 +1,6 @@
 "use client";
 import useCurrentUser from "@/queries/useCurrentUser";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -10,11 +11,9 @@ export default function Navbar() {
   let pageTitle;
   if (Pathname.includes("/admin_dashboard")) {
     pageTitle = "Admin Dashboard";
-  }
-  else if (Pathname.includes("/instructors_approval")) {
+  } else if (Pathname.includes("/instructors_approval")) {
     pageTitle = "Instructors Approval";
-  }
-  else if (Pathname.includes("/admin_settings")) {
+  } else if (Pathname.includes("/admin_settings")) {
     pageTitle = "Settings";
   }
 
@@ -26,12 +25,8 @@ export default function Navbar() {
       </div>
       <div className="flex items-center gap-2">
         <div className="flex flex-row gap-1 items-center bg-gray-50 border-gray-200 border-2 px-2">
-          <Image
-            src="/MagnifyingGlass.Png"
-            alt="Search"
-            width={20}
-            height={20}
-          />
+          <Search />
+
           <input
             type="text"
             placeholder="Search"

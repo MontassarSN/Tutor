@@ -9,6 +9,7 @@ import Upnav from "./Upnav";
 import { DropdownMenuDemo } from "./ProfileMenu";
 import useCart from "@/hooks/purchases/cart/useCart";
 import { Badge } from "./ui/badge";
+import { Search } from "lucide-react";
 
 interface NavbarProps {}
 
@@ -39,12 +40,8 @@ const Navbar: React.FC<NavbarProps> = () => {
             <option>Browse</option>
           </select>
           <div className="flex flex-row gap-1 items-center border-gray-200 border-2 px-2">
-            <Image
-              src="/MagnifyingGlass.Png"
-              alt="aaa"
-              width={20}
-              height={20}
-            />
+
+            <Search />
 
             <input
               type="text"

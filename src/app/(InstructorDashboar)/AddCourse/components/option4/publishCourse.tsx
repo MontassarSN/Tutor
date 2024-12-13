@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Tables } from "@/types/database.types";
 import useCurrentUser from "@/queries/useCurrentUser";
+import { Search } from "lucide-react";
 
 export default function PublishCourse({
   setValidsCount4,
@@ -33,9 +34,8 @@ export default function PublishCourse({
   type courseSchemaType = z.infer<typeof courseSchema>;
 
   const [selectedInstructors, setSelectedInstructors] = useState<
-  Array<Tables<"instructors"> & { users: Tables<"users"> | null }>
->([]);
-
+    Array<Tables<"instructors"> & { users: Tables<"users"> | null }>
+  >([]);
 
   const [selectedInstructorsIds, setSelectedInstructorsIds] = useState<
     string[]
@@ -167,12 +167,8 @@ export default function PublishCourse({
 
       <div className="flex flex-col ">
         <div className="flex flex-row gap-1 items-center bg-gray-50 border-gray-200 border-2 px-2 w-[50%]">
-          <Image
-            src="/MagnifyingGlass.Png"
-            alt="Search"
-            width={20}
-            height={20}
-          />
+          <Search />
+
           <input
             type="text"
             placeholder="Search"
@@ -224,7 +220,9 @@ export default function PublishCourse({
                 className="rounded-full"
               />
               <div className="flex flex-col gap-1 text-sm">
-                <div className="font-semibold">{instructor.users?.username}</div>
+                <div className="font-semibold">
+                  {instructor.users?.username}
+                </div>
                 <div className="text-gray-500">{instructor.title}</div>
               </div>
             </div>

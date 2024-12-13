@@ -29,6 +29,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import approveInstructor from "@/api/users/instructors/approveInstructor";
 import deleteInstructor from "@/api/users/instructors/deleteInstructor";
+import { sendMail } from "@/api/sendEmail";
 
 export default function NotApprovedInstructorsPage() {
   const {
@@ -49,9 +50,30 @@ export default function NotApprovedInstructorsPage() {
   };
   const acceptMutation = useMutation({
     mutationFn: async () => {
-      console.log("🚀 ~ mutationFn: ~ selectedInstructor:", selectedInstructor);
+      const instructor = notApprovedInstructors?.find(
+        (instructor) => instructor.user_id === selectedInstructor
+      );
+      if (!instructor) return;
 
       await approveInstructor(selectedInstructor);
+
+      await sendMail({
+        to: instructor.users?.email ?? "",
+        subject: "Congratulations! You are approved as an instructor",
+        text: `
+          Dear ${instructor.users?.FirstName} ${instructor.users?.LastName},
+  
+          Congratulations! Your application to become an instructor has been approved. You can now start teaching courses on our platform.
+  
+          Best regards,
+          Your Platform Team
+        `,
+        html: `
+          <p>Dear ${instructor.users?.FirstName} ${instructor.users?.LastName},</p>
+          <p>Congratulations! Your application to become an instructor has been approved. You can now start teaching courses on our platform.</p>
+          <p>Best regards,<br/>Your Platform Team</p>
+        `,
+      });
     },
     onSuccess: () => {
       toast({
@@ -67,16 +89,38 @@ export default function NotApprovedInstructorsPage() {
       toast({
         variant: "destructive",
         title: "Error approving instructor",
-        description: "check your network connection",
+        description: "Check your network connection",
       });
-      console.error("Error adding course:", error.message);
+      console.error("Error approving instructor:", error.message);
     },
   });
+
   const refuseMutation = useMutation({
     mutationFn: async () => {
-      console.log("🚀 ~ mutationFn: ~ selectedInstructor:", selectedInstructor);
+      const instructor = notApprovedInstructors?.find(
+        (instructor) => instructor.user_id === selectedInstructor
+      );
+      if (!instructor) return;
 
       await deleteInstructor(selectedInstructor);
+
+      await sendMail({
+        to: instructor.users?.email ?? "",
+        subject: "Your application to become an instructor has been rejected",
+        text: `
+          Dear ${instructor.users?.FirstName} ${instructor.users?.LastName},
+    
+          We regret to inform you that your application to become an instructor has been rejected. Unfortunately, we are unable to offer you an instructor position at this time.
+    
+          Best regards,
+          Your Platform Team
+        `,
+        html: `
+          <p>Dear ${instructor.users?.FirstName} ${instructor.users?.LastName},</p>
+          <p>We regret to inform you that your application to become an instructor has been rejected. Unfortunately, we are unable to offer you an instructor position at this time.</p>
+          <p>Best regards,<br/>Your Platform Team</p>
+        `,
+      });
     },
     onSuccess: () => {
       toast({
@@ -92,9 +136,9 @@ export default function NotApprovedInstructorsPage() {
       toast({
         variant: "destructive",
         title: "Error refusing instructor",
-        description: "check your network connection",
+        description: "Check your network connection",
       });
-      console.error("Error adding course:", error.message);
+      console.error("Error refusing instructor:", error.message);
     },
   });
 
@@ -104,7 +148,6 @@ export default function NotApprovedInstructorsPage() {
     } else if (action === "refuse") {
       refuseMutation.mutate();
     }
-
   };
 
   if (isLoading) return <div className="text-center p-8">Loading...</div>;
