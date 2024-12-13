@@ -1,6 +1,12 @@
-import { fetchInstructors } from "@/api/users/instructors/instructorsdata";
+import fetchInstructorData from "@/api/users/instructors/fetchInstructorData";
+import { UseQueryOptions } from "@tanstack/react-query";
+import { Tables } from "@/types/database.types";
 
-export const IntructorsQuery ={
-    queryKey: ["instructors"],
-    queryFn: async () => await fetchInstructors(),
-  };
+export const IntructorQuery = (
+  id: string | undefined | null
+): UseQueryOptions<Tables<"instructors">> => ({
+  queryKey: ["instructors", id],
+  queryFn: async () => await fetchInstructorData(id as string),
+  enabled: id !== undefined  ,
+  
+});

@@ -7,18 +7,15 @@ import useCurrentUser from "@/queries/useCurrentUser";
 import DarkMode from "./DarkMode";
 import Upnav from "./Upnav";
 import { DropdownMenuDemo } from "./ProfileMenu";
+import useCart from "@/hooks/purchases/cart/useCart";
+import { Badge } from "./ui/badge";
 
-interface NavbarProps {
-  // Add props here if needed
-}
+interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
   const { data, error } = useCurrentUser();
+  const { data: cart } = useCart();
   const { searchQuery, setSearchQuery } = useSearch();
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
 
   return (
     <div className="flex flex-col w-full">
@@ -42,54 +39,51 @@ const Navbar: React.FC<NavbarProps> = () => {
             <option>Browse</option>
           </select>
           <div className="flex flex-row gap-1 items-center border-gray-200 border-2 px-2">
-            <div>🔍</div>
+            <Image
+              src="/MagnifyingGlass.Png"
+              alt="aaa"
+              width={20}
+              height={20}
+            />
+
             <input
               type="text"
               placeholder="What do you want to learn"
               className="w-96 p-3 hover:border-none focus:outline-none"
               value={searchQuery}
-              onChange={handleSearchChange}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
         <div className="flex flex-row justify-between items-center gap-5">
-          <div className="flex items-center gap-4">
-            <div className="relative h-6 w-6">
-              <Image
-                src="/Bell.png"
-                alt="Bell"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-            <div className="relative h-6 w-6">
-              <Image
-                src="/Heart.png"
-                alt="Heart"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-            <div className="relative h-6 w-6">
-              <Image
-                src="/ShoppingCartSimple.png"
-                alt="Shopping Cart"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-          </div>
+          <Link href="/cart" className="relative">
+            <Image
+              src="/ShoppingCartSimple.png"
+              alt="Shopping Cart"
+              width={50}
+              height={50}
+              className="h-auto w-auto cursor-pointer"
+            />
+            {cart && cart.length > 0 && (
+              <Badge
+                variant="destructive"
+                className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full p-0"
+              >
+                {cart.length}
+              </Badge>
+            )}
+          </Link>
           {data ? (
             <DropdownMenuDemo />
           ) : (
             <>
               <Link href="/CreateAccount">
-                <button className="bg-customBg text-customText py-2 px-4">
+                <button className="bg-customBg text-customText hover:text-texthover2 hover:bg-hoverbutton2 py-2 px-4">
                   Create an Account
                 </button>
               </Link>
               <Link href="/SignIn">
-                <button className="bg-customText text-white py-2 px-4">
+                <button className="bg-customText text-white hover:bg-hoverbutton hover:text-gray-50  py-2 px-4">
                   Sign in
                 </button>
               </Link>

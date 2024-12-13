@@ -5,18 +5,18 @@ import Image from "next/image"; // Import next/image
 
 export default function TopCat() {
   return (
-    <div className="bg-white w-full py-7">
+    <div className="bg-white shadow-sm w-full ">
       <div className="flex flex-col gap-5 w-2/3 m-auto items-center justify-center">
         <h1 className="text-3xl font-semibold align-middle py-10">
           Top Categories
         </h1>
-        <div className="flex flex-row justify-center w-full flex-wrap gap-5">
+        <div className=" justify-center w-full grid grid-cols-4 gap-5">
           {categories.map((cat: Category, index: number) => (
             <div
               key={index}
               className={`flex flex-row w-56 gap-2 items-center px-2 h-20 ${cat.color}`}
             >
-              <div className="bg-white p-2 flex justify-center items-center">
+              <div className="bg-white shadow-sm p-2 flex justify-center items-center">
                 <Image
                   src={cat.pic}
                   alt={cat.text}

@@ -2,20 +2,16 @@
 
 import { ServerClient } from "@/lib/supabasessr"; // Adjust the import path as needed
 
-export async function FetchInstructorCourses(user_id: string) {
+export async function FetchInstructorCourses(id: string) {
   const supabase = await ServerClient();
 
-  try {
-    // Fetch courses owned by the instructor
-    const { data: coursesData, error: coursesError } = await supabase
-      .from("courses")
-      .select("*")
-      .match({ user_id });
+  // Fetch courses where the instructor ID is in the instructors_ids array
+  const { data: coursesData, error: coursesError } = await supabase
+    .from("courses")
+    .select("*")
+    .contains("instructor_ids", [id]); // Check if the ID is in the instructors_ids array
 
-    if (coursesError) throw coursesError;
+  if (coursesError) throw new Error(`Failed to fetch courses: ${coursesError.message}`);
 
-    return coursesData;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+  return coursesData;
 }

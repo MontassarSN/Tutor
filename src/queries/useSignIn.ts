@@ -12,9 +12,7 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: async (formData: FormData) => {
       const email = formData.get("email") as string;
-      console.log("🚀 ~ mutationFn: ~ email:", email)
       const password = formData.get("password") as string;
-      console.log("🚀 ~ mutationFn: ~ password:", password)
       await SignIn(email, password);
     },
     onSuccess: () => {

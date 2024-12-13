@@ -11,7 +11,7 @@ export default function MostSellingCourses() {
   const { data: Top10Courses } = useQuery(TopCoursesQuery
    );
   return (
-    <div className="flex flex-col mt-10 gap-5 w-3/4 m-auto items-center py-5 justify-center">
+    <div className="flex flex-col  gap-5 w-3/4 m-auto items-center py-5 justify-center">
       <h1 className="text-3xl font-semibold align-middle py-10">
         Most Selling Courses
       </h1>

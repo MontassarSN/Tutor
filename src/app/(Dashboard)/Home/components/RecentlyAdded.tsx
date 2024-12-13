@@ -10,7 +10,7 @@ export default function RecentlyAdded() {
 
   return (
     <div className="flex flex-col mt-10 gap-5 w-3/4 m-auto items-center py-5 justify-center">
-      <h1 className="text-3xl font-semibold align-middle py-10">
+      <h1 className="text-3xl font-semibold align-middle ">
         Recently added courses
       </h1>
       <div className="flex flex-row justify-center w-full flex-wrap gap-5">

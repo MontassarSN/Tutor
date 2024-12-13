@@ -6,7 +6,7 @@ import ResearchForCourses from "@/components/ResearchForCourses";
 import CompanyInfo from "./components/CompanyInfo";
 import ContactForm from "./components/ContactForm";
 import { SearchProvider, useSearch } from "@/Contexts/SearchContext";
-const ContactContent: React.FC = () => {
+export default function Page() {
   const address = (
     <div className="flex flex-col gap-2">
       <div>1702 Olympic Boulevard</div>
@@ -29,7 +29,7 @@ const ContactContent: React.FC = () => {
   );
   const { searchQuery } = useSearch();
   return (
-    <div className="bg-white text-black">
+    <div className="bg-white shadow-sm text-black">
       {searchQuery ? (
         <ResearchForCourses />
       ) : (
@@ -48,7 +48,7 @@ const ContactContent: React.FC = () => {
                   Email={email}
                 />
               </div>
-              <div className="bg-white w-[40%] p-10">
+              <div className="bg-white shadow-sm w-[40%] p-10">
                 <ContactForm />
               </div>
             </div>
@@ -61,12 +61,5 @@ const ContactContent: React.FC = () => {
         </div>
       )}
     </div>
-  );
-};
-export default function Page() {
-  return (
-    <SearchProvider>
-      <ContactContent />
-    </SearchProvider>
   );
 }

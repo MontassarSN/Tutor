@@ -49,7 +49,7 @@ export function DropdownMenuDemo() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <Link href="/Profile" passHref>
+        <Link href="/account_settings" >
           <DropdownMenuItem asChild>
             <a>
               <span>Profile</span>

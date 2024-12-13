@@ -9,10 +9,7 @@ const LogForm: React.FC = () => {
       <h1 className="text-4xl font-bold align-middle py-10">
         Sign in to your account
       </h1>
-      <form
-        action={SignIn.mutate}
-        className="flex flex-col gap-5"
-      >
+      <form action={SignIn.mutate} className="flex flex-col gap-5">
         <div className="text-sm font-semibold text-gray-900">Email</div>
         <div>
           <input
@@ -35,7 +32,7 @@ const LogForm: React.FC = () => {
             <span className="text-sm text-gray-500">Remember me</span>
           </div>
           <button
-            className="bg-customText text-white text-sm py-2 px-2"
+            className="bg-customText text-white hover:bg-hoverbutton hover:text-gray-50  text-sm py-2 px-2"
             type="submit"
           >
             <div className="flex flex-row gap-2">

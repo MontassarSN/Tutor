@@ -1,4 +1,4 @@
-import { Category, Course, Instructor } from "../types/Types";
+import { Category } from "../types/Types";
 
 // Function to generate an array of dates from 12 days ago until today
 function generateDates(): string[] {
@@ -43,7 +43,7 @@ export const categories: Category[] = [
     text: "Personal Development",
     pic: "/TopCat/BugDroid.png",
     courses: "63,476",
-    color: "bg-white-100",
+    color: "bg-white shadow-sm-100",
   },
   {
     text: "Office Productivity",
@@ -89,44 +89,3 @@ export const categories: Category[] = [
   },
 ];
 
-// Function to parse the number of students and convert it to a numerical value
-
-// Sort the courses based on the number of students
-
-export const instructors: Instructor[] = [
-  {
-    name: "Devon Lane",
-    pic: "/Instructors/DevonLane.png",
-    title: "Senior Developer",
-    raiting: "4.6",
-    students: "854",
-  },
-  {
-    name: "Darrell Steward",
-    pic: "/Instructors/DarrellSteward.png",
-    title: "Digital Product Designer",
-    raiting: "4.9",
-    students: "451,444",
-  },
-  {
-    name: "Albert Flores",
-    pic: "/Instructors/AlbertFlores.png",
-    title: "Adobe Instructor",
-    raiting: "4.7",
-    students: "511,123",
-  },
-  {
-    name: "Jane Cooper",
-    pic: "/Instructors/JaneCooper.png",
-    title: "UI/UX Designer",
-    raiting: "4.8",
-    students: "123,324",
-  },
-  {
-    name: "Bessie Cooper",
-    pic: "/Instructors/KathrynMurphy.png",
-    title: "Photographer",
-    raiting: "4.5",
-    students: "54,343",
-  },
-];

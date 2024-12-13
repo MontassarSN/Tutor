@@ -4,11 +4,12 @@ import { uploadFiles } from "@/hooks/useFileUpload";
 
 export async function updateCourseStep2(
   formData: FormData,
-  courseid: number,
+  courseid: string,
   subjects: string[],
   audience: string[],
   requirements: string[]
 ): Promise<void> {
+
   // Upload files and get the URLs
   const picUrls = await uploadFiles(formData);
 
@@ -30,6 +31,8 @@ export async function updateCourseStep2(
   if (picUrl) {
     updateData.pic = picUrl;
   }
+  console.log("🚀 ~ picUrl:", picUrl)
+
   
   if (vidUrl) {
     updateData.trailer = vidUrl;
@@ -41,9 +44,8 @@ export async function updateCourseStep2(
     .from("courses")
     .update(updateData)
     .eq("id", courseid);
-
-  // Check for update error
   if (error) {
     throw new Error(`Update error: ${error.message}`);
   }
 }
+  console.log("🚀 ~ console:", console)

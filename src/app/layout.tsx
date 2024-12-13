@@ -4,7 +4,6 @@ import "./globals.css";
 import Hydration from "@/provider/hydration";
 import Store from "@/provider/store";
 import { SearchProvider } from "../Contexts/SearchContext"; // Assuming SearchProvider is correctly imported
-import { LinkProvider } from "@/Contexts/LinkContext";
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,7 +21,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <LinkProvider>
         <SearchProvider>
         <Store>
           <Hydration>
@@ -30,7 +28,6 @@ export default async function RootLayout({
           </Hydration>
         </Store>
         </SearchProvider>
-        </LinkProvider>
         <Toaster />
       
       </body>

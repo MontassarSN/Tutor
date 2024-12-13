@@ -9,7 +9,8 @@ export async function fetchTop5Instructors() {
     .from("instructors")
     .select("*")
     .order("students", { ascending: false })
-    .limit(5);
+    .eq('approved', true)
+    .limit(3);
 
   if (error) {
     throw new Error(`Error fetching top 10 courses: ${error.message}`);

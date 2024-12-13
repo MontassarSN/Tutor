@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { InsertUser } from "@/api/users/insertUser";
-import { SignUp } from "@/api/auth/SignUp";
+import signUp from "@/api/auth/SignUp";
 
 interface CustomError {
   message: string;
@@ -27,23 +27,24 @@ const schema = z.object({
 });
 
 const Form: React.FC = () => {
+  const queryClient = useQueryClient();
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
   const signUpMutation = useMutation<void, CustomError, FormData>({
     mutationFn: async (formData: FormData) => {
-      const email = String(formData.get("email")) ;
+      const email = String(formData.get("email"));
       const password = String(formData.get("password"));
-      const firstName = String(formData.get("firstName") );
-      const lastName = String(formData.get("lastName") );
-      const username = String(formData.get("username") );
+      const firstName = String(formData.get("firstName"));
+      const lastName = String(formData.get("lastName"));
+      const username = String(formData.get("username"));
       const result = schema.safeParse({
         firstName,
         lastName,
         username,
         email,
         password,
-      });
-
+      });                                           
       if (!result.success) {
         const formattedErrors: Record<string, string> = {};
         result.error.errors.forEach((error) => {
@@ -54,38 +55,28 @@ const Form: React.FC = () => {
         setErrors(formattedErrors);
         throw new Error("Validation error");
       }
-
-      const options = {
-        data: {
-          firstName,
-          lastName,
-          username,
-        },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      };
-
-      const user = await SignUp({
+      const user = await signUp({
         email,
         password,
-        options,
       });
-      if (user) {
+      if (user.data?.user?.id) {
         await InsertUser({
           FirstName: firstName,
           LastName: lastName,
           username,
           email,
-          user_id: user.id,
+          user_id: user.data?.user?.id,
         });
-        console.log("User info saved successfully.");
       }
     },
     onSuccess: () => {
-      router.push("/"); // Redirect to the home page upon successful sign-up
+      queryClient.invalidateQueries({
+        queryKey: ["user", "active"]
+      });
     },
     onError: (error) => {
       console.error(error);
-    }
+    },
   });
 
   return (
@@ -169,7 +160,7 @@ const Form: React.FC = () => {
           </span>
         </div>
         <button
-          className="bg-customText text-white text-sm py-2 px-2"
+          className="bg-customText text-white hover:bg-hoverbutton hover:text-gray-50  text-sm py-2 px-2"
           type="submit"
         >
           <div className="flex flex-row gap-2">

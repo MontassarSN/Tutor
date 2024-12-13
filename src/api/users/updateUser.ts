@@ -29,17 +29,25 @@ export async function UpdateUser(args: TablesUpdate<"users">, formData: FormData
   // Check if the picUrls object has the expected key (assuming 'filepicture' is the key)
   const picUrl = picUrls['filepicture'];
   if (!picUrl) {
-    throw new Error("Picture URL not found after upload");
-  }
-
-  // Update user data
-  const { error } = await supabase
+    const { error } = await supabase
     .from("users")
-    .update({ ...args, pic: picUrl })
+    .update({ ...args})
     .eq("user_id", session.user.id);
-
-  // Check for update error
+    if (error) {
+      throw new Error(`Update error: ${error.message}`);
+    }
+  }
+else {
+  const { error } = await supabase
+  .from("users")
+  .update({ ...args, pic: picUrl })
+  .eq("user_id", session.user.id);
   if (error) {
     throw new Error(`Update error: ${error.message}`);
   }
+
+}
+
+  // Check for update error
+
 }

@@ -1,8 +1,8 @@
 "use server";
 import { QueriesConfig } from "@/constants/queries";
 import { ActiveUserQuery } from "@/queries/ActiveUserQuery";
-import { CoursesQuery } from "@/queries/CoursesQuery";
-import { IntructorsQuery } from "@/queries/InstructorQuery";
+import { coursesQuery } from "@/queries/CoursesQuery";
+import { IntructorsQuery } from "@/queries/InstructorsQuery";
 import { LabelcolorsQuery } from "@/queries/LabelcolorsQuery";
 import { NewestCoursesQuery } from "@/queries/NewestCoursesQuery";
 import { TopCoursesQuery } from "@/queries/TopCoursesQuery";
@@ -21,7 +21,7 @@ export default async function Hydration({
 }) {
   const queryClient = new QueryClient(QueriesConfig);
   await Promise.all([
-    queryClient.prefetchQuery(CoursesQuery(1, 10)),
+    queryClient.prefetchQuery(coursesQuery({ page: 1, limit: 10})),
     queryClient.prefetchQuery(LabelcolorsQuery),
     queryClient.prefetchQuery(TopCoursesQuery),
     queryClient.prefetchQuery(NewestCoursesQuery),
@@ -29,6 +29,8 @@ export default async function Hydration({
     queryClient.prefetchQuery(IntructorsQuery),
     queryClient.prefetchQuery(UsersQuery),
     queryClient.prefetchQuery(TopIntructorsQuery),
+
+
   ]);
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

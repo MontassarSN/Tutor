@@ -1,6 +1,6 @@
-"use server";
+"use client";
 import { redirect } from 'next/navigation'
 
-export default async function page() {
+export default  function page() {
   redirect('/Home')
 }

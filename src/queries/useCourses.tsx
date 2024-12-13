@@ -1,7 +1,12 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { CoursesQuery } from "./CoursesQuery";
+import { coursesQuery, CoursesQueryType } from "./CoursesQuery";
 
-export const useCourses = (page: number, pageSize: number) => {
-  return useQuery(CoursesQuery(page, pageSize));
-};
+export default function useCourses({
+  page,
+  limit,
+  search,
+  filters,
+}: CoursesQueryType) {
+  return useQuery(coursesQuery({page, limit, search,filters}));
+}

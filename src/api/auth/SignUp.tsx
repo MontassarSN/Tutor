@@ -1,22 +1,35 @@
 "use server";
-
+import { headers } from "next/headers";
 import { ServerClient } from "@/lib/supabasessr";
 
-export async function SignUp({
+export default async function signUp({
   email,
   password,
-  options,
 }: {
   email: string;
   password: string;
-  options: object;
 }) {
+  const headersList =  headers();
+  const header_url = headersList.get("host") || "";
+  const proto = headersList.get("x-forwarded-proto") || "http";
+
   const supabase = await ServerClient();
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options,
+  const { data, error: signUpErr } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      emailRedirectTo: `${proto}://${header_url}/auth/callback`,
+    },
   });
-  if (error) throw new Error(error.message);
-  return data.user;
+  if (signUpErr) {
+    return {
+      error: { message: signUpErr?.message, type: "SignUp Error" },
+    };
+  }
+  if (data?.user?.identities?.length === 0) {
+    return {
+      error: { message: "You already have an account", type: "SignUp Error" },
+    };
+  }
+  return { data, error: null };
 }

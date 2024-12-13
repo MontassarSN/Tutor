@@ -1,12 +1,22 @@
 "use server";
-import { ServerClient } from "@/lib/supabasessr"; // Adjust the import path as needed
+import { ServerClient } from "@/lib/supabasessr";
 
-
-export async function fetchInstructors () {
+export async function fetchInstructors() {
   const supabase = await ServerClient();
-  const { data, error } = await supabase.from("instructors").select("*");
+
+  const { data, error } = await supabase
+    .from("instructors")
+    .select(
+      `
+      *,
+      users (*)
+    `
+    )
+    .eq("approved", true);
+
   if (error) {
     return { error, data: null };
   }
+
   return { data, error: null };
-};
+}

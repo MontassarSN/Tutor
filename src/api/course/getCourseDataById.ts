@@ -2,7 +2,7 @@
 import { ServerClient } from "@/lib/supabasessr"; // Adjust the path as necessary
 import { Tables } from "@/types/database.types"; // Adjust the path as necessary
 
-export async function getCourseDataById(courseId: number) {
+export async function getCourseDataById(courseId: string) {
   const supabase = await ServerClient();
 
   const { data: course, error } = await supabase

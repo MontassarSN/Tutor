@@ -53,6 +53,9 @@ const config: Config = {
         },
         customBg: "#FFEEE8",
         customText: "#FF6636",
+        hoverbutton : "#CC522B",
+        hoverbutton2 : "#FFDDD1",
+        texthover2 : "#CC522B",
       },
       borderRadius: {
         lg: "var(--radius)",

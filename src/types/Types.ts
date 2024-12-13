@@ -1,35 +1,21 @@
 // src/types.ts
 
+import { Database, Tables } from "./database.types";
+
 export interface Category {
     text: string;
     pic: string;
     courses: string;
     color: string;
   }
-  
-  export interface Course {
-    label: string;
-    price: string;
-    title: string;
-    pic: string;
-    stars: string;
-    students: string;
-    colors: string;
-    date: string;
-    ownername: string;
-  }
 
-  export interface labelcolors {
-    id:number;
-    label: string;
-    colors: string;
+  export interface ICart extends Tables<"cart"> {
+    courses: Tables<"courses">;
   }
   
-  export interface Instructor {
-    name: string;
-    pic: string;
-    title: string;
-    raiting: string;
-    students: string;
-  }
   
+  export type tableType = keyof Database[Extract<
+    keyof Database,
+    "public"
+  >]["Tables"];
+
