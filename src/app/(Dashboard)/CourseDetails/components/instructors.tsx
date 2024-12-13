@@ -1,11 +1,11 @@
 "use client";
 
-import { useInstructor } from '@/queries/useInstrcutor';
 import { useUser } from '@/queries/useUser';
 import Image from 'next/image';
 import React from 'react';
 import InstructorsInfos from './InstructorsInfos';
 import { Tables } from '@/types/database.types';
+import { useInstructor } from '@/queries/useInstrcutor';
 
 
 export default function Instructors({ instructorsIds }: { instructorsIds: string[] }) {

@@ -2,7 +2,7 @@ import fetchInstructorData from "@/api/users/instructors/fetchInstructorData";
 import { UseQueryOptions } from "@tanstack/react-query";
 import { Tables } from "@/types/database.types";
 
-export const IntructorQuery = (
+export const InstructorQuery = (
   id: string | undefined | null
 ): UseQueryOptions<Tables<"instructors">> => ({
   queryKey: ["instructors", id],
